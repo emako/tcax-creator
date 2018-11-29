@@ -1,0 +1,18 @@
+<RCC>
+    <qresource prefix="/">
+        <file>buttons/eyedropper_tool_16.png</file>
+        <file>buttons/eyedropper_tool_24.png</file>
+        <file>buttons/eyedropper_tool_32.png</file>
+        <file>buttons/eyedropper_tool_48.png</file>
+        <file>buttons/eyedropper_tool_64.png</file>
+        <file>curs/eyedropper.cur</file>
+        <file>icons/art.ico</file>
+        <file>strings/about</file>
+        <file>svgs/exclamation.svg</file>
+        <file>svgs/exclamation-circle.svg</file>
+        <file>svgs/info-circle.svg</file>
+        <file>svgs/palette.svg</file>
+        <file>icons/yuv.ico</file>
+        <file>fonts/consola.ttf</file>
+    </qresource>
+</RCC>

@@ -1,0 +1,440 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1141</width>
+    <height>722</height>
+   </rect>
+  </property>
+  <property name="acceptDrops">
+   <bool>true</bool>
+  </property>
+  <property name="windowTitle">
+   <string>TCAX Creator</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="res/res.qrc">
+    <normaloff>:/icons/tcax.ico</normaloff>:/icons/tcax.ico</iconset>
+  </property>
+  <widget class="QWidget" name="centralWidget">
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <property name="spacing">
+     <number>0</number>
+    </property>
+    <property name="leftMargin">
+     <number>0</number>
+    </property>
+    <property name="topMargin">
+     <number>0</number>
+    </property>
+    <property name="rightMargin">
+     <number>0</number>
+    </property>
+    <property name="bottomMargin">
+     <number>0</number>
+    </property>
+    <item>
+     <widget class="QSplitter" name="splitter">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <widget class="QTreeView" name="folderTreeView">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="contextMenuPolicy">
+        <enum>Qt::CustomContextMenu</enum>
+       </property>
+       <property name="acceptDrops">
+        <bool>false</bool>
+       </property>
+      </widget>
+      <widget class="QTabWidget" name="tabWidget">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+         <horstretch>30</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="currentIndex">
+        <number>0</number>
+       </property>
+       <widget class="QWidget" name="tabCode">
+        <attribute name="title">
+         <string>Code</string>
+        </attribute>
+        <layout class="QVBoxLayout" name="verticalLayout_2">
+         <property name="spacing">
+          <number>0</number>
+         </property>
+         <property name="leftMargin">
+          <number>0</number>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="rightMargin">
+          <number>0</number>
+         </property>
+         <property name="bottomMargin">
+          <number>0</number>
+         </property>
+         <item>
+          <widget class="ScriptEditor" name="scriptEditor" native="true">
+           <property name="acceptDrops">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QWidget" name="tabDesign">
+        <attribute name="title">
+         <string>Design</string>
+        </attribute>
+        <layout class="QVBoxLayout" name="verticalLayout_3">
+         <property name="spacing">
+          <number>0</number>
+         </property>
+         <property name="leftMargin">
+          <number>0</number>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="rightMargin">
+          <number>0</number>
+         </property>
+         <property name="bottomMargin">
+          <number>0</number>
+         </property>
+         <item>
+          <widget class="ScriptDesigner" name="scriptDesigner" native="true"/>
+         </item>
+        </layout>
+       </widget>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QStatusBar" name="statusBar"/>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1141</width>
+     <height>26</height>
+    </rect>
+   </property>
+   <property name="nativeMenuBar">
+    <bool>true</bool>
+   </property>
+   <widget class="QMenu" name="menuFile">
+    <property name="title">
+     <string>File</string>
+    </property>
+    <widget class="QMenu" name="menuNewFile">
+     <property name="title">
+      <string>New ...</string>
+     </property>
+     <property name="icon">
+      <iconset resource="res/res.qrc">
+       <normaloff>:/buttons/page_white_text.png</normaloff>:/buttons/page_white_text.png</iconset>
+     </property>
+     <addaction name="actionTcc_File"/>
+     <addaction name="actionASS_File"/>
+     <addaction name="actionPython_File"/>
+     <addaction name="separator"/>
+     <addaction name="actionVSScript"/>
+     <addaction name="actionAVSScript"/>
+    </widget>
+    <widget class="QMenu" name="menuRecent">
+     <property name="title">
+      <string>Recent</string>
+     </property>
+     <property name="icon">
+      <iconset resource="res/res.qrc">
+       <normaloff>:/buttons/folder.png</normaloff>:/buttons/folder.png</iconset>
+     </property>
+     <addaction name="separator"/>
+    </widget>
+    <addaction name="actionOpenFolder"/>
+    <addaction name="menuNewFile"/>
+    <addaction name="actionSave"/>
+    <addaction name="menuRecent"/>
+    <addaction name="separator"/>
+    <addaction name="actionPreferences"/>
+    <addaction name="actionAssoc"/>
+    <addaction name="separator"/>
+    <addaction name="actionExit"/>
+   </widget>
+   <widget class="QMenu" name="menuBuild">
+    <property name="title">
+     <string>Build</string>
+    </property>
+    <addaction name="actionCompile"/>
+    <addaction name="actionClean"/>
+    <addaction name="separator"/>
+    <addaction name="actionExplore"/>
+   </widget>
+   <widget class="QMenu" name="menuTools">
+    <property name="title">
+     <string>Tools</string>
+    </property>
+    <addaction name="actionCapColor"/>
+    <addaction name="separator"/>
+    <addaction name="actionKass"/>
+    <addaction name="actionTass"/>
+    <addaction name="separator"/>
+    <addaction name="actionAssConvertor"/>
+   </widget>
+   <widget class="QMenu" name="menuHelp">
+    <property name="tearOffEnabled">
+     <bool>false</bool>
+    </property>
+    <property name="title">
+     <string>Help</string>
+    </property>
+    <property name="separatorsCollapsible">
+     <bool>false</bool>
+    </property>
+    <property name="toolTipsVisible">
+     <bool>false</bool>
+    </property>
+    <addaction name="actionGithub"/>
+    <addaction name="separator"/>
+    <addaction name="actionTCAX_Manual"/>
+    <addaction name="actionForum"/>
+    <addaction name="separator"/>
+    <addaction name="actionAbout"/>
+   </widget>
+   <addaction name="menuFile"/>
+   <addaction name="menuBuild"/>
+   <addaction name="menuTools"/>
+   <addaction name="menuHelp"/>
+  </widget>
+  <action name="actionExit">
+   <property name="icon">
+    <iconset resource="res/res.qrc">
+     <normaloff>:/svgs/close.svg</normaloff>:/svgs/close.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Exit</string>
+   </property>
+  </action>
+  <action name="actionOpenFolder">
+   <property name="icon">
+    <iconset resource="res/res.qrc">
+     <normaloff>:/buttons/folder_add.png</normaloff>:/buttons/folder_add.png</iconset>
+   </property>
+   <property name="text">
+    <string>Open Folder</string>
+   </property>
+  </action>
+  <action name="actionCompile">
+   <property name="icon">
+    <iconset resource="res/res.qrc">
+     <normaloff>:/buttons/compile_error.png</normaloff>:/buttons/compile_error.png</iconset>
+   </property>
+   <property name="text">
+    <string>Compile</string>
+   </property>
+  </action>
+  <action name="actionKass">
+   <property name="icon">
+    <iconset resource="res/res.qrc">
+     <normaloff>:/buttons/page_white_text.png</normaloff>:/buttons/page_white_text.png</iconset>
+   </property>
+   <property name="text">
+    <string>ASS K-tag Typer (KASS)</string>
+   </property>
+  </action>
+  <action name="actionCapColor">
+   <property name="icon">
+    <iconset resource="res/res.qrc">
+     <normaloff>:/buttons/eyedropper_tool.png</normaloff>:/buttons/eyedropper_tool.png</iconset>
+   </property>
+   <property name="text">
+    <string>Capture Color</string>
+   </property>
+  </action>
+  <action name="actionSave">
+   <property name="icon">
+    <iconset resource="res/res.qrc">
+     <normaloff>:/buttons/disk.png</normaloff>:/buttons/disk.png</iconset>
+   </property>
+   <property name="text">
+    <string>Save</string>
+   </property>
+  </action>
+  <action name="actionExplore">
+   <property name="icon">
+    <iconset resource="res/res.qrc">
+     <normaloff>:/buttons/folder_magnify.png</normaloff>:/buttons/folder_magnify.png</iconset>
+   </property>
+   <property name="text">
+    <string>Explore</string>
+   </property>
+  </action>
+  <action name="actionTcc_File">
+   <property name="icon">
+    <iconset resource="res/res.qrc">
+     <normaloff>:/buttons/tc.png</normaloff>:/buttons/tc.png</iconset>
+   </property>
+   <property name="text">
+    <string>TCC File (*.tcc)</string>
+   </property>
+  </action>
+  <action name="actionPython_File">
+   <property name="icon">
+    <iconset resource="res/res.qrc">
+     <normaloff>:/buttons/python.png</normaloff>:/buttons/python.png</iconset>
+   </property>
+   <property name="text">
+    <string>Python Script (*.py)</string>
+   </property>
+  </action>
+  <action name="actionVSScript">
+   <property name="icon">
+    <iconset resource="res/res.qrc">
+     <normaloff>:/buttons/vsedit.png</normaloff>:/buttons/vsedit.png</iconset>
+   </property>
+   <property name="text">
+    <string>VapourSynth Script (*.vpy)</string>
+   </property>
+  </action>
+  <action name="actionAVSScript">
+   <property name="icon">
+    <iconset resource="res/res.qrc">
+     <normaloff>:/buttons/avsp.ico</normaloff>:/buttons/avsp.ico</iconset>
+   </property>
+   <property name="text">
+    <string>Avisynth Script (*.avs)</string>
+   </property>
+  </action>
+  <action name="actionAssConvertor">
+   <property name="icon">
+    <iconset resource="res/res.qrc">
+     <normaloff>:/buttons/page_white_text.png</normaloff>:/buttons/page_white_text.png</iconset>
+   </property>
+   <property name="text">
+    <string>ASS Convertor</string>
+   </property>
+  </action>
+  <action name="actionASS_File">
+   <property name="icon">
+    <iconset resource="res/res.qrc">
+     <normaloff>:/buttons/insert_text.png</normaloff>:/buttons/insert_text.png</iconset>
+   </property>
+   <property name="text">
+    <string>ASS Script (*.ass)</string>
+   </property>
+  </action>
+  <action name="actionForum">
+   <property name="icon">
+    <iconset resource="res/res.qrc">
+     <normaloff>:/buttons/book_open.png</normaloff>:/buttons/book_open.png</iconset>
+   </property>
+   <property name="text">
+    <string>TCAX Forum</string>
+   </property>
+  </action>
+  <action name="actionGithub">
+   <property name="icon">
+    <iconset resource="res/res.qrc">
+     <normaloff>:/buttons/github.png</normaloff>:/buttons/github.png</iconset>
+   </property>
+   <property name="text">
+    <string>Github</string>
+   </property>
+  </action>
+  <action name="actionAbout">
+   <property name="icon">
+    <iconset resource="res/res.qrc">
+     <normaloff>:/buttons/information.png</normaloff>:/buttons/information.png</iconset>
+   </property>
+   <property name="text">
+    <string>About ...</string>
+   </property>
+  </action>
+  <action name="actionTCAX_Manual">
+   <property name="icon">
+    <iconset resource="res/res.qrc">
+     <normaloff>:/buttons/book_open.png</normaloff>:/buttons/book_open.png</iconset>
+   </property>
+   <property name="text">
+    <string>TCAX Manual</string>
+   </property>
+  </action>
+  <action name="actionClean">
+   <property name="icon">
+    <iconset resource="res/res.qrc">
+     <normaloff>:/buttons/erase.png</normaloff>:/buttons/erase.png</iconset>
+   </property>
+   <property name="text">
+    <string>Clean</string>
+   </property>
+  </action>
+  <action name="actionTass">
+   <property name="icon">
+    <iconset resource="res/res.qrc">
+     <normaloff>:/buttons/page_white_text.png</normaloff>:/buttons/page_white_text.png</iconset>
+   </property>
+   <property name="text">
+    <string>ASS T-tag Looper (TASS)</string>
+   </property>
+  </action>
+  <action name="actionPreferences">
+   <property name="icon">
+    <iconset resource="res/res.qrc">
+     <normaloff>:/buttons/wrench.png</normaloff>:/buttons/wrench.png</iconset>
+   </property>
+   <property name="text">
+    <string>Preferences</string>
+   </property>
+  </action>
+  <action name="actionAssoc">
+   <property name="icon">
+    <iconset resource="res/res.qrc">
+     <normaloff>:/buttons/plugin.png</normaloff>:/buttons/plugin.png</iconset>
+   </property>
+   <property name="text">
+    <string>Associate</string>
+   </property>
+  </action>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>ScriptEditor</class>
+   <extends>QWidget</extends>
+   <header>editor/script_editor.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>ScriptDesigner</class>
+   <extends>QWidget</extends>
+   <header>designer/script_designer.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <resources>
+  <include location="res/res.qrc"/>
+ </resources>
+ <connections/>
+</ui>
