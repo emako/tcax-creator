@@ -305,7 +305,7 @@ TccMap TccDesigner::getTccMap(void)
 
     /* Font */
     tccMap.insert(TCC_FONT_FACE_NAME, ui->comboBoxFontName->currentText());
-    tccMap.insert(TCC_FONT_FACE_ID, ui->comboBoxFontNum->currentIndex());
+    tccMap.insert(TCC_FONT_FACE_ID, ui->comboBoxFontNum->currentIndex() + TCC_INDEX_OFFSET);
     tccMap.insert(TCC_FONT_FILE, ui->editFontFile->text());
     tccMap.insert(TCC_FONT_SIZE, ui->spinBoxFontSize->value());
 
