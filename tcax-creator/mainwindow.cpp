@@ -52,10 +52,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
     m_fsWatcher->connect(m_fsWatcher, &QFileSystemWatcher::fileChanged, this, &MainWindow::fileChanged);
     m_fsWatcher->connect(m_fsWatcher, &QFileSystemWatcher::directoryChanged, this, &MainWindow::fileChanged);
-
-    TccMap tccMap = TcaxHelper::tccParseToMap("F:/Ema/Hyojo/Utils/TCAX/example/C3_op.tcc");
-
-    TcaxHelper::tccSave("F:/Ema/Hyojo/Utils/TCAX/example/C3_op_map.tcc", tccMap);
 }
 
 MainWindow::~MainWindow()
