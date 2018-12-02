@@ -36,7 +36,7 @@
 
 class Config;
 
-#define TCAX_CREATOR_VERSION "r1"
+#define TCAX_CREATOR_VERSION "r2"
 
 #define global
 
