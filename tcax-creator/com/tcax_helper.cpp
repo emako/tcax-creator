@@ -117,7 +117,6 @@ bool TcaxHelper::tccSave(const QString &a_filename, TccMap a_tccMap)
     tccStringList << tccToAttrLine(TCC_BORD, a_tccMap.value(TCC_BORD).toString())
                    + TCC_LINE_SPACE
                    + tccToAttrLine(TCC_SHAD, a_tccMap.value(TCC_SHAD).toString());
-    tccStringList << tccToAttrLine(TCC_FONT_FACE_NAME, a_tccMap.value(TCC_FONT_FACE_NAME).toString());
     tccStringList << tccToAttrLine(TCC_PRIMARY_COLOR, a_tccMap.value(TCC_PRIMARY_COLOR).toString())
                    + TCC_LINE_SPACE
                    + tccToAttrLine(TCC_SECONDARY_COLOR, a_tccMap.value(TCC_SECONDARY_COLOR).toString())
