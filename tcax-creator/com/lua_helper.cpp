@@ -10,7 +10,7 @@ bool LuaHelper::luaDoFile(const QString &a_luaFile, const QString &a_funcName, c
 
     if(a_fromRes)
     {
-        scriptFile = QString(":/strings/lua/%1").arg(a_luaFile);
+        scriptFile = QString(":/scripts/%1").arg(a_luaFile);
     }
     else
     {

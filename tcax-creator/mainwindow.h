@@ -14,6 +14,7 @@
 #include "editor/py_syntax_highlighter.h"
 
 #include <QMainWindow>
+#include <QColorDialog>
 #include <QDesktopServices>
 #include <QUrl>
 #include <QFontMetrics>
@@ -46,8 +47,10 @@ public:
 private slots:
     void openProject(void);
     void openProject(QString a_folder);
+    void reloadFile(const QFileInfo &a_fileInfo);
 
 private:
+    void execArgument(void);
     void loadFonts(void);
     void setSyntax(void);
     void setActions(void);
@@ -72,6 +75,7 @@ private slots:
     void projectCompile(void);
     void projectClean(void);
     void projectExplore(void);
+    void tcaxExplore(void);
     QPair<QString, QFileInfo> selectedCompiler(void);
     void slotAbout(void);
     void openWebs(void);

@@ -65,7 +65,10 @@ TccDesigner::TccDesigner(QWidget *parent) :
     connect(ui->editSecondaryColor, SIGNAL(textChanged(QString)), this, SLOT(colorChanged(QString)));
     connect(ui->editBordColor, SIGNAL(textChanged(QString)), this, SLOT(colorChanged(QString)));
     connect(ui->editShadowColor, SIGNAL(textChanged(QString)), this, SLOT(colorChanged(QString)));
-
+    connect(ui->buttonPrimaryColor, SIGNAL(clicked()), this, SLOT(selectColor()));
+    connect(ui->buttonSecondaryColor, SIGNAL(clicked()), this, SLOT(selectColor()));
+    connect(ui->buttonBordColor, SIGNAL(clicked()), this, SLOT(selectColor()));
+    connect(ui->buttonShadowColor, SIGNAL(clicked()), this, SLOT(selectColor()));
 }
 
 TccDesigner::~TccDesigner()
@@ -147,10 +150,34 @@ void TccDesigner::addCustomActions(void)
 
 void TccDesigner::colorChanged(QString a_colorString)
 {
+#if false
     QPalette palette;
 
     palette.setColor(QPalette::Text, QColor(TCC_COLOR_INIT_MOJI + a_colorString));
     static_cast<QLineEdit *>(sender())->setPalette(palette);
+#endif
+
+    if(a_colorString.length() < eINDEX_6)
+    {
+        return;
+    }
+
+    if(sender() == ui->editPrimaryColor)
+    {
+        ui->buttonPrimaryColor->setStyleSheet(QString(buttonColorSelected).arg(a_colorString));
+    }
+    else if(sender() == ui->editSecondaryColor)
+    {
+        ui->buttonSecondaryColor->setStyleSheet(QString(buttonColorSelected).arg(a_colorString));
+    }
+    else if(sender() == ui->editBordColor)
+    {
+        ui->buttonBordColor->setStyleSheet(QString(buttonColorSelected).arg(a_colorString));
+    }
+    else if(sender() == ui->editShadowColor)
+    {
+        ui->buttonShadowColor->setStyleSheet(QString(buttonColorSelected).arg(a_colorString));
+    }
 }
 
 void TccDesigner::freeTccAttr(TCC_pAttributes a_pTccAttr)
@@ -598,4 +625,42 @@ QString TccDesigner::getSrcFilename(const QString &a_filename)
         filenameSrc = QDir::toNativeSeparators(a_filename);
     }
     return filenameSrc;
+}
+
+void TccDesigner::selectColor(void)
+{
+    const static QMap<QPushButton *, QLineEdit *> c_buttonEditorPairList = {
+        { ui->buttonPrimaryColor, ui->editPrimaryColor },
+        { ui->buttonSecondaryColor, ui->editSecondaryColor },
+        { ui->buttonBordColor, ui->editBordColor },
+        { ui->buttonShadowColor, ui->editShadowColor },
+    };
+    QPushButton *p_sender = static_cast<QPushButton *>(sender());
+    QLineEdit *p_target = c_buttonEditorPairList.contains(p_sender) ? c_buttonEditorPairList[p_sender] : nullptr;
+    QString colorPrevString;
+    QColor color;
+
+    if(p_target == nullptr)
+    {
+        return;
+    }
+
+    colorPrevString = p_target->text();
+
+    if(colorPrevString.isEmpty() || colorPrevString.length() < eINDEX_6)
+    {
+        color = QColorDialog::getColor();
+    }
+    else
+    {
+        color = QColorDialog::getColor(DEFAULT_COLOR_INIT + colorPrevString);
+    }
+
+    if (!color.isValid())
+    {
+        return;
+    }
+
+    p_target->setText(color.name(QColor::HexRgb).toUpper().remove(DEFAULT_COLOR_INIT));
+
 }

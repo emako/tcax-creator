@@ -76,6 +76,13 @@ namespace StyleSheet
     "image: url(:/Images/checkBoxIndeterminatePressed);" \
     "}"
 
+    #define buttonColorSelected \
+    "QPushButton" \
+    "{" \
+    "background-color:#%1;" \
+    "border-style:outset;" \
+    "border:1px solid #7A7A7A;" \
+    "}"
 };
 
 #endif // STYLE_SHEET_H

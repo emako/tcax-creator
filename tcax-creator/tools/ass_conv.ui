@@ -91,6 +91,11 @@
          <string>Txt2Ass</string>
         </property>
        </item>
+       <item>
+        <property name="text">
+         <string>Png2Ass</string>
+        </property>
+       </item>
       </widget>
      </item>
      <item>

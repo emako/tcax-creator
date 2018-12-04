@@ -366,7 +366,7 @@
         </spacer>
        </item>
        <item>
-        <widget class="QPushButton" name="makeBt">
+        <widget class="QPushButton" name="buttonMake">
          <property name="minimumSize">
           <size>
            <width>110</width>
@@ -383,7 +383,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="hideBt">
+        <widget class="QPushButton" name="buttonClose">
          <property name="minimumSize">
           <size>
            <width>110</width>

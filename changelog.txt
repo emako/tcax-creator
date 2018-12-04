@@ -1,0 +1,17 @@
+tcax-creator changelog
+
+version r1
+ - init release version.
+
+version r2
+ - added tools of png2ass.
+ - fixed multi tcc attr with font face name.
+ - fixed tcc font face id.
+
+version r3
+ - removed tools of png2ass.
+ - added convert support of png2ass.
+ - added tcc color attr selectable button and tips shown.
+ - added associated working of tcax-creator.
+ - fixed tcas can be saved in editor mode.
+ - fixed tass crash bug.

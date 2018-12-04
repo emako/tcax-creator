@@ -36,7 +36,7 @@
 
 class Config;
 
-#define TCAX_CREATOR_VERSION "r2"
+#define TCAX_CREATOR_VERSION "r3"
 
 #define global
 
@@ -79,6 +79,8 @@ class Config;
 #define EXT_TMP   "tmp"
 #define EXT_TOKEN "token"
 #define EXT_PYC   "pyc"
+#define EXT_PNG   "png"
+#define EXT_LUA   "lua"
 
 #define DIR_PYCACHE "__pycache__"
 
@@ -90,6 +92,7 @@ class Config;
 #define EXEC_CAPTURE_COLOR "capture-color"
 
 #define DEFAULT_COLOR "000000"
+#define DEFAULT_COLOR_INIT "#"
 
 #define USING
 #define SCOPE

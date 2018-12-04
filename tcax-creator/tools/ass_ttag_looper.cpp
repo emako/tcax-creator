@@ -48,24 +48,22 @@ QString AssTtagLooper::getPrevEffectText(void)
     return prev_calc_text;
 }
 
-void AssTtagLooper::on_hideBt_clicked()
+void AssTtagLooper::on_buttonClose_clicked()
 {
-    this->hide();
+    this->close();
 }
 
 QString AssTtagLooper::tt(int start_time, int end_time, int fx_time, QString tag1, QString tag2)
 {
     QString tags = tag1;
-    int parm1;
-    int parm2;
     bool change_tag = false;
-    int max = (end_time - start_time) / fx_time;
-    int* array = range(start_time, end_time, fx_time);
+    QList<int> array = range(start_time, end_time, fx_time);
 
-    for(int i=0; i < max; i++)
+    for(int i = 0; i < array.length(); i++)
     {
-        parm1 = array[i];
-        parm2 = parm1 + fx_time;
+        int parm1 = array[i];
+        int parm2 = parm1 + fx_time;
+
         if(change_tag)
         {
             QString tagAt = tag1;
@@ -76,25 +74,21 @@ QString AssTtagLooper::tt(int start_time, int end_time, int fx_time, QString tag
         tags += QString(ASS_TAG_STR_TT).arg(ASS_TAG_TT).arg(QString::number(parm1)).arg(QString::number(parm2)).arg(tag2);
         change_tag = true;
     }
-    delete array;
     return tags;
 }
 
-int *AssTtagLooper::range(int start, int end, int step)
+QList<int> AssTtagLooper::range(int start, int end, int step)
 {
-    int max = (end - start) / step;
-    int *array = new int[static_cast<unsigned int>(max)];
-    int count = 0;
+    QList<int> array;
 
     for(int i = start; i <= end; i += step)
     {
-        array[count] = i;
-        count++;
+        array << i;
     }
     return array;
 }
 
-void AssTtagLooper::on_makeBt_clicked()
+void AssTtagLooper::on_buttonMake_clicked()
 {
     int startTime = ui->startTimeSpinBox->value();
     int endTime = ui->endTimeSpinBox->value();

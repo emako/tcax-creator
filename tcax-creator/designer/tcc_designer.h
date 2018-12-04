@@ -69,6 +69,7 @@ public:
 private slots:
     void colorChanged(QString a_colorString);
     void lineChanged(void);
+    void selectColor(void);
 
     void on_comboBoxFontName_activated(const QString &a_text);
     void on_listWidgetLine_customContextMenuRequested(const QPoint &);

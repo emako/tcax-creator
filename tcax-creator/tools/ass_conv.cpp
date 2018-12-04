@@ -1,6 +1,8 @@
 #include "ass_conv.h"
 #include "ui_ass_conv.h"
 
+extern QMap<QUuid, StdWatcher*> g_pStdWatch;
+
 AssConv::AssConv(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::AssConv),
@@ -69,7 +71,7 @@ void AssConv::slotContextMenu(void)
 
 void AssConv::getOpens(void)
 {
-    QStringList filelist = QFileDialog::getOpenFileNames(this, tr("Open Files"), "/", tr("Supported Files (*.ass *.ssa *.txt *.lrc *.krc)"));
+    QStringList filelist = QFileDialog::getOpenFileNames(this, tr("Open Files"), "/", tr("Supported Files (*.ass *.ssa *.txt *.lrc *.krc *.png)"));
 
     if(filelist.isEmpty())
     {
@@ -131,6 +133,7 @@ bool AssConv::isEnabledInput(const QString &a_filename, bool a_isIgnore)
         { Ass2Txt, { EXT_ASS, EXT_SSA, } },
         { Lrc2Ass, { EXT_LRC, EXT_KRC, } },
         { Txt2Ass, { EXT_TXT, } },
+        { Png2Ass, { EXT_PNG, } },
     };
 
     if(a_isIgnore)
@@ -183,6 +186,9 @@ QString AssConv::getOutputExt(void)
     case Txt2Ass:
         ext = EXT_ASS;
         break;
+    case Png2Ass:
+        ext = EXT_ASS;
+        break;
     }
     return ext;
 }
@@ -198,7 +204,7 @@ void AssConv::convert(void)
 
         if(isEnabledInput(srcFile, false))
         {
-            QString tarFile = QString("%1_out.%2").arg(Common::delFileExt(srcFile)).arg(getOutputExt());
+            QString tarFile = QString("%1.%2").arg(Common::delFileExt(srcFile)).arg(getOutputExt());
 
             outputFileList.append( { srcFile, tarFile } );
 
@@ -241,6 +247,9 @@ void AssConv::convert(void)
             break;
         case Txt2Ass:
             convertTxt2Ass(outputFile.first, outputFile.second);
+            break;
+        case Png2Ass:
+            convertPng2Ass(outputFile.first, outputFile.second);
             break;
         }
     }
@@ -288,6 +297,25 @@ void AssConv::convertTxt2Ass(const QString &a_srcFile, const QString &a_tarFile)
     {
         MESSAGE_BOX_CONVERT_FAILD(this, a_srcFile, a_tarFile);
     }
+}
+
+void AssConv::convertPng2Ass(const QString &a_srcFile, const QString &a_tarFile)
+{
+    QString script = "png2ass.py";
+    QString cmd;
+
+    if(!QFileInfo(script).isFile())
+    {
+        if(!QFile::copy(":/scripts/png2ass.py", script))
+        {
+            MESSAGE_BOX_CONVERT_FAILD(this, a_srcFile, a_tarFile);
+            return;
+        }
+    }
+
+    cmd = QString("%1 %2 \"%3\" \"%4\"").arg(Common::findFirstFilePath(EXEC_PYTHON)).arg(script).arg(a_srcFile).arg(a_tarFile);
+
+    QProcess::startDetached(cmd);
 }
 
 void AssConv::slotContextMenuRequested(void)

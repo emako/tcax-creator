@@ -5,6 +5,7 @@
 #include "../com/lua_helper.h"
 #include "../com/common.h"
 #include "../com/ass_helper.h"
+#include "../std/std_manager.h"
 
 #include <QWidget>
 #include <QMessageBox>
@@ -30,6 +31,7 @@ public:
         Ass2Txt,
         Lrc2Ass,
         Txt2Ass,
+        Png2Ass,
     };
 
 private slots:
@@ -48,6 +50,7 @@ private:
     void convertAssToTxt(const QString &a_srcFile, const QString &a_tarFile);
     void convertLrc2Ass(const QString &a_srcFile, const QString &a_tarFile);
     void convertTxt2Ass(const QString &a_srcFile, const QString &a_tarFile);
+    void convertPng2Ass(const QString &a_srcFile, const QString &a_tarFile);
 
 private:
     Ui::AssConv *ui;

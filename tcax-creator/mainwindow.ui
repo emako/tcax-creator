@@ -218,6 +218,8 @@
     </property>
     <addaction name="actionGithub"/>
     <addaction name="separator"/>
+    <addaction name="actionTCAX_Explore"/>
+    <addaction name="separator"/>
     <addaction name="actionTCAX_Manual"/>
     <addaction name="actionForum"/>
     <addaction name="separator"/>
@@ -415,6 +417,15 @@
    </property>
    <property name="text">
     <string>Associate</string>
+   </property>
+  </action>
+  <action name="actionTCAX_Explore">
+   <property name="icon">
+    <iconset resource="res/res.qrc">
+     <normaloff>:/buttons/folder_link.png</normaloff>:/buttons/folder_link.png</iconset>
+   </property>
+   <property name="text">
+    <string>TCAX Explore</string>
    </property>
   </action>
  </widget>

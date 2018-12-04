@@ -52,6 +52,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     m_fsWatcher->connect(m_fsWatcher, &QFileSystemWatcher::fileChanged, this, &MainWindow::fileChanged);
     m_fsWatcher->connect(m_fsWatcher, &QFileSystemWatcher::directoryChanged, this, &MainWindow::fileChanged);
+
+    this->execArgument();
 }
 
 MainWindow::~MainWindow()
@@ -63,6 +65,22 @@ MainWindow::~MainWindow()
     delete m_pSyntaxHighlighter;
     delete m_pActionGroupRecent;
     delete g_pConfig;
+}
+
+void MainWindow::execArgument(void)
+{
+    QStringList argv = QApplication::arguments();
+
+    if(argv.length() >= eINDEX_2)
+    {
+        QString input = argv[eINDEX_1];
+
+        if(QFileInfo(input).isFile())
+        {
+            openProject(QFileInfo(input).absolutePath());
+            reloadFile(QFileInfo(input));
+        }
+    }
 }
 
 void MainWindow::keyPressEvent(QKeyEvent* event)
@@ -153,7 +171,7 @@ void MainWindow::setActions(void)
             i.value()->setProperty(WEB_PAGE_PROP, i.key());
             i.value()->connect(i.value(), SIGNAL(triggered()), this, SLOT(openWebs()));
         }
-
+        ui->actionTCAX_Explore->connect(ui->actionTCAX_Explore, SIGNAL(triggered()), this, SLOT(tcaxExplore()));
     }END_OF_USING;
 
     /* File System Menu */
@@ -199,9 +217,8 @@ void MainWindow::loadFonts(void)
     QFontDatabase::addApplicationFontFromData(Common::getResource(":/fonts/consola.ttf"));
 }
 
-void MainWindow::on_folderTreeView_activated(const QModelIndex &a_index)
+void MainWindow::reloadFile(const QFileInfo &a_fileInfo)
 {
-    QFileInfo fileinfo = m_model->fileInfo(a_index);
     static const QStringList c_editable_file_suffix_filter = {
         EXT_TCC,
         EXT_ASS,
@@ -212,16 +229,17 @@ void MainWindow::on_folderTreeView_activated(const QModelIndex &a_index)
         EXT_AVSI,
         EXT_TXT,
         EXT_LRC,
+        EXT_LUA,
     };
     static const QStringList c_designable_file_suffix_filter = {
         EXT_TCC,
         EXT_TCAS,
     };
 
-    if(QFileInfo(fileinfo.absoluteFilePath()).isFile())
+    if(QFileInfo(a_fileInfo.absoluteFilePath()).isFile())
     {
-        QString filename = fileinfo.absoluteFilePath();
-        QString ext = fileinfo.suffix().toLower();
+        QString filename = a_fileInfo.absoluteFilePath();
+        QString ext = a_fileInfo.suffix().toLower();
         bool editable = false;
         bool designable = false;
 
@@ -244,7 +262,7 @@ void MainWindow::on_folderTreeView_activated(const QModelIndex &a_index)
 
         if(!editable && !designable)
         {
-            showMessage(tr("Not supported format for \"%1\".").arg(fileinfo.fileName()));
+            showMessage(tr("Not supported format for \"%1\".").arg(a_fileInfo.fileName()));
             return;
         }
         else
@@ -297,6 +315,13 @@ void MainWindow::on_folderTreeView_activated(const QModelIndex &a_index)
             }
         }
     }
+}
+
+void MainWindow::on_folderTreeView_activated(const QModelIndex &a_index)
+{
+    QFileInfo fileinfo = m_model->fileInfo(a_index);
+
+    reloadFile(fileinfo);
 }
 
 void MainWindow::fileChanged(void)
@@ -707,6 +732,11 @@ void MainWindow::projectClean(void)
     }
 }
 
+void MainWindow::tcaxExplore(void)
+{
+    QDesktopServices::openUrl(QUrl::fromLocalFile(QString("file:///%1\\tcax").arg(QDir::toNativeSeparators(QDir::currentPath()))));
+}
+
 void MainWindow::projectExplore(void)
 {
     QDesktopServices::openUrl(QUrl::fromLocalFile(QString("file:///%1").arg(folder())));
@@ -882,12 +912,18 @@ void MainWindow::save(void)
 
     if(filename.isEmpty())
     {
-        showMessage(tr("None file loaded."), Qt::blue);
+        showMessage(tr("None file loaded."), Qt::darkBlue);
         return;
     }
 
     if(mode == ui->tabCode)
     {
+        if(ext == EXT_TCAS)
+        {
+            showMessage(tr("None file was modified."), Qt::darkBlue);
+            return;
+        }
+
         savedOk = Common::setFileText(filename, ui->scriptEditor->toPlainText());
 
         if(savedOk)
@@ -896,7 +932,7 @@ void MainWindow::save(void)
             {
                 ui->scriptDesigner->reload(ScriptDesigner::TccDesign, filename);
             }
-            showMessage(tr("File \"%1\" saved.").arg(filename), Qt::blue);
+            showMessage(tr("File \"%1\" saved.").arg(filename), Qt::darkBlue);
         }
         else
         {
@@ -912,7 +948,7 @@ void MainWindow::save(void)
             if(savedOk)
             {
                 ui->scriptEditor->setPlainText(Common::getFileText(filename));
-                showMessage(tr("File \"%1\" saved.").arg(filename), Qt::blue);
+                showMessage(tr("File \"%1\" saved.").arg(filename), Qt::darkBlue);
             }
             else
             {
@@ -921,7 +957,7 @@ void MainWindow::save(void)
         }
         else if(ext == EXT_TCAS)
         {
-            showMessage(tr("None file was modified."), Qt::blue);
+            showMessage(tr("None file was modified."), Qt::darkBlue);
         }
     }
 
