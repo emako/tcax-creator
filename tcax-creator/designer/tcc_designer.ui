@@ -685,10 +685,7 @@ The &quot;!&quot; means using internal fx, such as &quot;!in_001.py&quot;.</stri
                   </size>
                  </property>
                  <property name="styleSheet">
-                  <string notr="true">QPushButton {
-	background-color: rgb(110, 255, 214);
-}
-</string>
+                  <string notr="true"/>
                  </property>
                  <property name="text">
                   <string/>

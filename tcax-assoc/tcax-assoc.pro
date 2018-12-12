@@ -21,6 +21,8 @@ QMAKE_LFLAGS += /MANIFESTUAC:\"level=\'requireAdministrator\' uiAccess=\'false\'
 PROJECT_DIRECTORY = $$PWD
 COMMON_DIRECTORY = $$PWD
 
+ARCHITECTURE_64_BIT = false
+
 CONFIG(debug, debug|release) {
 
     contains(QMAKE_COMPILER, gcc) {
@@ -56,7 +58,7 @@ CONFIG(debug, debug|release) {
             OBJECTS_DIR = $${PROJECT_DIRECTORY}/generated/obj-release-64bit-gcc
         } else {
             DESTDIR = $${PROJECT_DIRECTORY}/build/release-32bit-gcc
-            TARGET = $${TARGET}-32bit
+            TARGET = $${TARGET}
             OBJECTS_DIR = $${PROJECT_DIRECTORY}/generated/obj-release-32bit-gcc
         }
     }
@@ -68,7 +70,7 @@ CONFIG(debug, debug|release) {
             OBJECTS_DIR = $${PROJECT_DIRECTORY}/generated/obj-release-64bit-msvc
         } else {
             DESTDIR = $${PROJECT_DIRECTORY}/build/release-32bit-msvc
-            TARGET = $${TARGET}-32bit
+            TARGET = $${TARGET}
             OBJECTS_DIR = $${PROJECT_DIRECTORY}/generated/obj-release-32bit-msvc
         }
     }

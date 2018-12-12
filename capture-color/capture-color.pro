@@ -25,6 +25,8 @@ DEFINES += QT_DEPRECATED_WARNINGS
 PROJECT_DIRECTORY = $$PWD
 COMMON_DIRECTORY = $$PWD
 
+ARCHITECTURE_64_BIT = false
+
 RC_ICONS = $${COMMON_DIRECTORY}/res/icons/art.ico
 
 CONFIG(debug, debug|release) {
@@ -62,7 +64,7 @@ CONFIG(debug, debug|release) {
             OBJECTS_DIR = $${PROJECT_DIRECTORY}/generated/obj-release-64bit-gcc
         } else {
             DESTDIR = $${COMMON_DIRECTORY}/build/release-32bit-gcc
-            TARGET = $${TARGET}-32bit
+            TARGET = $${TARGET}
             OBJECTS_DIR = $${PROJECT_DIRECTORY}/generated/obj-release-32bit-gcc
         }
     }
@@ -74,7 +76,7 @@ CONFIG(debug, debug|release) {
             OBJECTS_DIR = $${PROJECT_DIRECTORY}/generated/obj-release-64bit-msvc
         } else {
             DESTDIR = $${COMMON_DIRECTORY}/build/release-32bit-msvc
-            TARGET = $${TARGET}-32bit
+            TARGET = $${TARGET}
             OBJECTS_DIR = $${PROJECT_DIRECTORY}/generated/obj-release-32bit-msvc
         }
     }
