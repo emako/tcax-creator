@@ -331,7 +331,8 @@ TccMap TccDesigner::getTccMap(void)
     tccMap.insert(TCC_ALIGNMENT, m_pButtonGroupAlignment->checkedButton()->property(TCC_PROP_ALIGNMENT).toInt());
 
     /* Font */
-    tccMap.insert(TCC_FONT_FACE_NAME, ui->comboBoxFontName->currentText());
+    //tccMap.insert(TCC_FONT_FACE_NAME, ui->comboBoxFontName->currentText());
+    tccMap.insert(TCC_FONT_FACE_NAME, NULLSTR);
     if (ui->comboBoxFontNum->count() <= eINDEX_0)
     {
         tccMap.insert(TCC_FONT_FACE_ID, ui->comboBoxFontNum->currentText().toInt());
@@ -485,7 +486,8 @@ TCC_Attributes TccDesigner::getTccAttr(void)
     tccAttr.alignment = m_pButtonGroupAlignment->checkedButton()->property(TCC_PROP_ALIGNMENT).toInt();
 
     /* Font */
-    tccAttr.font_face_name = Common::toWCharT(ui->comboBoxFontName->currentText());
+    //tccAttr.font_face_name = Common::toWCharT(ui->comboBoxFontName->currentText());
+    tccAttr.font_face_name = Common::toWCharT(NULLSTR);
     tccAttr.font_face_id = ui->comboBoxFontNum->currentIndex() + TCC_INDEX_OFFSET;
     tccAttr.font_file = Common::toWCharT(ui->editFontFile->text());
     tccAttr.font_size = ui->spinBoxFontSize->value();

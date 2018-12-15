@@ -35,6 +35,8 @@ LUA_HEADER = $${COMMON_DIRECTORY}/lua/include
 INCLUDEPATH += $${LUA_HEADER}
 LIBS += -L$${LUA_LIB} -llua5.1
 
+QMAKE_LFLAGS += /NODEFAULTLIB:library
+
 CONFIG(debug, debug|release) {
 
     contains(QMAKE_COMPILER, gcc) {

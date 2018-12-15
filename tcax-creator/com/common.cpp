@@ -118,7 +118,16 @@ QString Common::fromJsonArray(const QJsonArray& a_jsonArray)
     return QString(QJsonDocument(a_jsonArray).toJson());
 }
 
-bool Common::recycleFile(const QString &a_filename, QWidget *a_pHwnd)
+bool Common::removeFile(const QString &a_filename, QWidget *a_pHwnd)
+{
+    if(QMessageBox::question(a_pHwnd, MSG_QUESTION, QObject::tr("Remove the file \"%1\" ?").arg(a_filename), QMessageBox::Yes|QMessageBox::No) == QMessageBox::Yes)
+    {
+        return QFile(a_filename).remove();
+    }
+    return true;
+}
+
+QT_DEPRECATED bool Common::recycleFile(const QString &a_filename, QWidget *a_pHwnd)
 {
     bool ret = true;
     SHFILEOPSTRUCT opRecycle;

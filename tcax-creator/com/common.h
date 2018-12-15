@@ -31,12 +31,13 @@
 #include <QSettings>
 #include <QAction>
 #include <QStyleFactory>
+#include <QMessageBox>
 #include <stdio.h>
 #include <Windows.h>
 
 class Config;
 
-#define TCAX_CREATOR_VERSION "r4"
+#define TCAX_CREATOR_VERSION "r5"
 
 #define global
 
@@ -102,6 +103,8 @@ class Config;
 #define RESOURCE_COMPILE_NONE ":/buttons/compile_error.png"
 #define RESOURCE_COMPILE_WARN ":/buttons/compile_warning.png"
 
+#define ACTION_FILE_SYSTEM_OPEN_WITH_SYS tr("Open with default")
+#define ACTION_FILE_SYSTEM_COPY_FILENAME tr("Copy filename")
 #define ACTION_FILE_SYSTEM_REMOVE tr("Remove")
 #define ACTION_FILE_SYSTEM_BUILD tr("Build")
 #define ACTION_FILE_SYSTEM_EXPLORE tr("Explore")
@@ -193,7 +196,8 @@ namespace Common
     QJsonArray toJsonArray(const QString a_string);
     QString fromJsonArray(const QJsonArray& a_jsonArray);
 
-    bool recycleFile(const QString &a_filename, QWidget *a_pHwnd = nullptr);
+    bool removeFile(const QString &a_filename, QWidget *a_pHwnd);
+    QT_DEPRECATED bool recycleFile(const QString &a_filename, QWidget *a_pHwnd = nullptr);
 
     QFileInfoList getFolderList(QString a_path);
     QFileInfoList getFileList(QString a_path);

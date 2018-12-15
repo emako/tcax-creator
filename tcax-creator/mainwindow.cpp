@@ -85,9 +85,15 @@ void MainWindow::execArgument(void)
 
 void MainWindow::keyPressEvent(QKeyEvent* event)
 {
+    qDebug() << event->text();
+
     if(event->text() == "\u0013") // Ctrl+S
     {
         save();
+    }
+    else if(event->text() == "\u0012") // Ctrl+R
+    {
+        projectCompile();
     }
 }
 
@@ -180,6 +186,8 @@ void MainWindow::setActions(void)
         QJsonObject json;
         QWidget *action_parent = ui->folderTreeView;
         QList<QPair<QString, QAction *>> action_list = {
+            ACTION_NEW(ACTION_FILE_SYSTEM_OPEN_WITH_SYS, ":/buttons/page_white_go.png", action_parent),
+            ACTION_NEW(ACTION_FILE_SYSTEM_COPY_FILENAME, ":/buttons/page_white_stack.png", action_parent),
             ACTION_NEW(ACTION_FILE_SYSTEM_REMOVE, ":/buttons/cross_grey.png", action_parent),
             ACTION_NONE,
             ACTION_NEW(ACTION_FILE_SYSTEM_BUILD, RESOURCE_COMPILE_NONE, action_parent),
@@ -628,7 +636,7 @@ void MainWindow::projectCompile(void)
     QString targetFile;
     QFileInfoList tccList = currentFolderTcc();
 
-    if(sender() == ui->actionCompile)
+    if(sender() == ui->actionCompile || sender() == nullptr)
     {
         if(tccList.length() == eINDEX_0)
         {
@@ -829,9 +837,18 @@ void MainWindow::slotFileSystem(void)
     QFileInfo fileinfo = m_model->fileInfo(ui->folderTreeView->currentIndex());
     QString id = sender()->property(ACTION_PROP_ID).toString();
 
-    if(id == ACTION_FILE_SYSTEM_REMOVE)
+    if(id == ACTION_FILE_SYSTEM_OPEN_WITH_SYS)
     {
-        if(!Common::recycleFile(fileinfo.filePath(), this))
+        QProcess::startDetached(QString("cmd /c \"%1\"").arg(fileinfo.filePath()));
+    }
+    else if(id == ACTION_FILE_SYSTEM_COPY_FILENAME)
+    {
+        QClipboard *clipboard = QApplication::clipboard();
+        clipboard->setText(fileinfo.filePath());
+    }
+    else if(id == ACTION_FILE_SYSTEM_REMOVE)
+    {
+        if(!Common::removeFile(fileinfo.filePath(), this))
         {
             QMessageBox::warning(this, MSG_WARNING, tr("Remove file failed!"));
         }

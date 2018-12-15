@@ -15,3 +15,15 @@ version r3
  - added associated working of tcax-creator.
  - fixed tcas can be saved in editor mode.
  - fixed tass crash bug.
+
+version r4
+ - fixed ui color-select button style.
+ - added python3.7.1 supported.
+ - updated qt framework ver to 5.12.0.
+
+version r5
+ - added shortcut of Ctrl+R to compile the project.
+ - added folder tree context menu of open file with sys def and copy filename.
+ - changed folder tree context menu of remove and file will be removed really now.
+ - changed libtcc then font name will not be saved.
+ - rebuilded _cairo.pyd with py37 and the imp loading error will be solved.
