@@ -43,7 +43,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->scriptDesigner->setMainUi(this);
     ui->scriptEditor->setLineWrapMode(QPlainTextEdit::NoWrap);
     ui->scriptEditor->setAcceptDrops(false);
-    ui->scriptEditor->setTabStopDistance(QFontMetrics(ui->scriptEditor->font()).width(BLANKCHR) * 4);
+//    ui->scriptEditor->setTabStopDistance(QFontMetrics(ui->scriptEditor->font()).width(BLANKCHR) * 4);
     ui->statusBar->setPalette(QPalette(Qt::red, Qt::red, Qt::red, Qt::red, Qt::red, Qt::red, Qt::red));
 
     m_pTimerMsg->setSingleShot(true);
@@ -907,14 +907,21 @@ void MainWindow::getConfigRecent(void)
 
 void MainWindow::setConfigRecent(void)
 {
-    QJsonArray recentList;
     QJsonObject json;
+	QJsonValue recent = NULLSTR;
+	QJsonArray recentList;
 
     for(QAction *actionRecent : m_pActionGroupRecent->actions())
     {
         recentList << actionRecent->text();
     }
-    json.insert(ACTION_JSON_RECENT, m_pActionGroupRecent->checkedAction()->text());
+
+	if (m_pActionGroupRecent->checkedAction() != nullptr)
+	{
+		recent = m_pActionGroupRecent->checkedAction()->text();
+	}
+
+    json.insert(ACTION_JSON_RECENT, recent);
     json.insert(ACTION_JSON_RECENT_LIST, recentList);
 
     g_pConfig->setConfig(Config::eCONFIG_COMMON_RECENT, Common::fromJson(json).simplified().trimmed());
