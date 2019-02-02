@@ -63,6 +63,7 @@ void ScriptEditor::keyPressEvent(QKeyEvent *e)
         m_isKeyCtrlPressed = true;
     }
     QPlainTextEdit::keyPressEvent(e);
+    e->accept();
 }
 
 void ScriptEditor::keyReleaseEvent(QKeyEvent *e)
@@ -72,6 +73,7 @@ void ScriptEditor::keyReleaseEvent(QKeyEvent *e)
         m_isKeyCtrlPressed = false;
     }
     QPlainTextEdit::keyReleaseEvent(e);
+    e->accept();
 }
 
 void ScriptEditor::wheelEvent(QWheelEvent* e)
@@ -96,6 +98,7 @@ void ScriptEditor::wheelEvent(QWheelEvent* e)
         }
         emit fontPointSizeUpdated(this->font().pointSize());
     }
+    QPlainTextEdit::wheelEvent(e);
     e->accept();
 }
 
