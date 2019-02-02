@@ -43,6 +43,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->scriptDesigner->setMainUi(this);
     ui->scriptEditor->setLineWrapMode(QPlainTextEdit::NoWrap);
     ui->scriptEditor->setAcceptDrops(false);
+    ui->scriptEditor->resizeFont(g_pConfig->getConfig(Config::eCONFIG_COMMON_EDITOR_FONT_POINT_SIZE).toInt());
+    ui->scriptEditor->connect(ui->scriptEditor, SIGNAL(fontPointSizeUpdated(int)), this, SLOT(fontPointSizeUpdated(int)));
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 12, 0))
     ui->scriptEditor->setTabStopDistance(QFontMetrics(ui->scriptEditor->font()).width(BLANKCHR) * eINDEX_4);
 #else
@@ -89,8 +91,6 @@ void MainWindow::execArgument(void)
 
 void MainWindow::keyPressEvent(QKeyEvent* event)
 {
-    qDebug() << event->text();
-
     if(event->text() == "\u0013") // Ctrl+S
     {
         save();
@@ -167,6 +167,7 @@ void MainWindow::setActions(void)
 
     /* Help */
     ui->actionAbout->connect(ui->actionAbout, SIGNAL(triggered()), this, SLOT(slotAbout()));
+    ui->actionAboutQt->connect(ui->actionAboutQt, SIGNAL(triggered()), this, SLOT(slotAbout()));
 
     USING SCOPE
     {
@@ -495,6 +496,11 @@ void MainWindow::dropEvent(QDropEvent* e)
     e->acceptProposedAction();
 }
 
+void MainWindow::fontPointSizeUpdated(int a_pointSize)
+{
+    g_pConfig->setConfig(Config::eCONFIG_COMMON_EDITOR_FONT_POINT_SIZE, a_pointSize);
+}
+
 void MainWindow::setSyntax(void)
 {
     m_pSyntaxHighlighter = new PySyntaxHighlighter(ui->scriptEditor->document());
@@ -756,7 +762,14 @@ void MainWindow::projectExplore(void)
 
 void MainWindow::slotAbout(void)
 {
-    QMessageBox::about(this, MSG_ABOUT, Common::fromResource(":/strings/about").arg(TCAX_CREATOR_VERSION));
+    if(sender() == ui->actionAbout)
+    {
+        QMessageBox::about(this, MSG_ABOUT, Common::fromResource(":/strings/about").arg(TCAX_CREATOR_VERSION));
+    }
+    else if(sender() == ui->actionAboutQt)
+    {
+        QMessageBox::aboutQt(this);
+    }
 }
 
 void MainWindow::openWebs(void)

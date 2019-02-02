@@ -14,6 +14,8 @@
 #include "editor/py_syntax_highlighter.h"
 
 #include <QMainWindow>
+#include <QWheelEvent>
+#include <QMouseEvent>
 #include <QColorDialog>
 #include <QDesktopServices>
 #include <QUrl>
@@ -66,6 +68,7 @@ private slots:
     void closeEvent(QCloseEvent *event);
     void dragEnterEvent(QDragEnterEvent* event);
     void dropEvent(QDropEvent* event);
+    void fontPointSizeUpdated(int a_pointSize);
     void clearMsg(void);
     void fileChanged(void);
     void newFile(void);

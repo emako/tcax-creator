@@ -10,6 +10,7 @@ const char *c_config_common_key[Config::eCONFIG_COMMON_MAX] = {
     "editor_file_limit_size",           /* eCONFIG_COMMON_EDITOR_FILE_LIMIT_SIZE */
     "style_factory_enable",             /* eCONFIG_COMMON_STYLE_FACTORY_ENABLE */
     "style_factory",                    /* eCONFIG_COMMON_STYLE_FACTORY */
+    "editor_font_point_size",           /* eCONFIG_COMMON_EDITOR_FONT_POINT_SIZE */
 };
 
 Config::Config()
@@ -125,6 +126,7 @@ void Config::initCommonConfigDefault(void)
     m_config_common_default << QVariant(eINDEX_2); /* eCONFIG_COMMON_EDITOR_FILE_LIMIT_SIZE */
     m_config_common_default << QVariant(false); /* eCONFIG_COMMON_STYLE_FACTORY_ENABLE */
     m_config_common_default << QVariant(DEFAULT_STYLE_FACTORY); /* eCONFIG_COMMON_STYLE_FACTORY */
+    m_config_common_default << QVariant(eINDEX_9); /* eCONFIG_COMMON_EDITOR_FONT_POINT_SIZE */
 }
 
 void Config::initCommonConfig(void)

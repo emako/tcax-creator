@@ -223,6 +223,7 @@
     <addaction name="actionTCAX_Manual"/>
     <addaction name="actionForum"/>
     <addaction name="separator"/>
+    <addaction name="actionAboutQt"/>
     <addaction name="actionAbout"/>
    </widget>
    <addaction name="menuFile"/>
@@ -371,7 +372,7 @@
      <normaloff>:/buttons/information.png</normaloff>:/buttons/information.png</iconset>
    </property>
    <property name="text">
-    <string>About ...</string>
+    <string>About TCAX Creator</string>
    </property>
   </action>
   <action name="actionTCAX_Manual">
@@ -426,6 +427,15 @@
    </property>
    <property name="text">
     <string>TCAX Explore</string>
+   </property>
+  </action>
+  <action name="actionAboutQt">
+   <property name="icon">
+    <iconset resource="res/res.qrc">
+     <normaloff>:/buttons/qt.png</normaloff>:/buttons/qt.png</iconset>
+   </property>
+   <property name="text">
+    <string>About Qt</string>
    </property>
   </action>
  </widget>
