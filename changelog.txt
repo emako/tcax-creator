@@ -27,3 +27,7 @@ version r5
  - changed folder tree context menu of remove and file will be removed really now.
  - changed libtcc then font name will not be saved.
  - rebuilded _cairo.pyd with py37 and the imp loading error will be solved.
+
+version r6
+ - fixed crash on quit program with empty recent list.
+ - added editor font size can be changed by ctrl+wheel.
