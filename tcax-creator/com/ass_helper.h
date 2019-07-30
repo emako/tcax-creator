@@ -24,7 +24,8 @@ namespace AssHelper
     inline QString toTimecode(qint64 a_msec, bool a_fullFormat = true);
     inline QString toAssEventsLine(qint64 a_startTimeMsec, qint64 a_endTimeMsec, QString text, bool a_isComment = false);
     inline QString stripAssTag(QString a_text);
-    inline QString toTextFromAssEvent(const QStringList &a_eventList);
+    inline QStringList splitAssEvents(const QString &a_assLine);
+    inline qint64 assTimeToLrcTime(const QString &timecode);
 };
 
 #endif // ASS_HELPER_H

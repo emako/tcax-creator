@@ -185,31 +185,6 @@ inline QString AssHelper::toAssEventsLine(qint64 a_startTimeMsec, qint64 a_endTi
             .arg(toTimecode(a_startTimeMsec)).arg(toTimecode(a_endTimeMsec)).arg(text);
 }
 
-inline QString AssHelper::toTextFromAssEvent(const QStringList &a_eventList)
-{
-    QString text = QT_EMPTY;
-
-    if(a_eventList.length() < static_cast<int>(AssEvents::MaxEvent))
-    {
-        PASS;
-    }
-    else if(a_eventList.length() == static_cast<int>(AssEvents::MaxEvent))
-    {
-        text = a_eventList.at(static_cast<int>(AssEvents::Text));
-    }
-    else if(a_eventList.length() > static_cast<int>(AssEvents::MaxEvent))
-    {
-        QStringList texts;
-
-        for(int i = static_cast<int>(AssEvents::Text); i < a_eventList.length(); i++)
-        {
-            texts.append(a_eventList.at(i));
-        }
-        text = texts.join(ASS_TAG_COMMA);
-    }
-    return text;
-}
-
 inline QString AssHelper::stripAssTag(QString a_text)
 {
     return a_text.replace(QRegExp(ASS_TAG_BRACE_REGEXP), QT_EMPTY)
@@ -218,54 +193,125 @@ inline QString AssHelper::stripAssTag(QString a_text)
             .replace(ASS_TAG_BLANK, QT_BLANK);
 }
 
+inline qint64 AssHelper::assTimeToLrcTime(const QString &timecode)
+{
+    //timecode = a_eventsList.at(static_cast<int>(AssEvents::Start))
+    qint64 startTimeMsec = qint64(eINDEX_NONE);
+    const QRegularExpression rex("(\\d+)?:(\\d+)?:(\\d+)?(\\.\\d+)?(\\S+)?");
+    QRegularExpressionMatch match = rex.match(timecode);
+
+#ifdef QT_DEBUG
+    qDebug() << "-->";
+    for(int i = 0; i < match.capturedLength(); i++)
+    {
+        qDebug() << match.captured(i);
+    }
+    qDebug() << "<--";
+#endif
+    if(match.captured(0).isEmpty())
+    {
+        return startTimeMsec;
+    }
+    else
+    {
+        int hour = match.captured(1).toInt();
+        int min = match.captured(2).toInt();
+        int sec = match.captured(3).toInt();
+        double msec = match.captured(4).toDouble();
+
+        startTimeMsec = static_cast<int>((hour * MINUTE * MINUTE + min * MINUTE + sec + msec) * SECOND_TO_MILLISECOND_UNIT);
+    }
+    return startTimeMsec;
+}
+
+inline QStringList AssHelper::splitAssEvents(const QString &a_assLine)
+{
+    QStringList eventsFirstSplited = stripAssTag(a_assLine).split(ASS_TAG_COMMA);
+    QStringList events;
+
+    if(!a_assLine.startsWith(ASS_TAG_EVENT_FORMAT_DIALOGUE) && !a_assLine.startsWith(ASS_TAG_EVENT_FORMAT_COMMENT))
+    {
+        return events;
+    }
+
+    if(eventsFirstSplited.length() < static_cast<int>(AssEvents::MaxEvent))
+    {
+        return events;
+    }
+
+    else
+    {
+        QString text = QT_EMPTY;
+
+        if(eventsFirstSplited.length() == static_cast<int>(AssEvents::MaxEvent))
+        {
+            text = eventsFirstSplited.at(static_cast<int>(AssEvents::Text));
+        }
+        else if(eventsFirstSplited.length() > static_cast<int>(AssEvents::MaxEvent))
+        {
+            QStringList texts;
+
+            for(int i = static_cast<int>(AssEvents::Text); i < eventsFirstSplited.length(); i++)
+            {
+                texts.append(eventsFirstSplited.at(i));
+            }
+            text = texts.join(ASS_TAG_COMMA);
+        }
+
+        for(int i = static_cast<int>(AssEvents::Layer); i < static_cast<int>(AssEvents::Text); i++)
+        {
+            events.append(eventsFirstSplited.at(i));
+        }
+        events.append(text);
+    }
+
+    return events;
+}
+
 QList<QPair<qint64, QString>> AssHelper::assParse(const QString &a_str)
 {
     QList<QPair<qint64, QString>> assParsedList;
     QString assStr = a_str;
     QStringList assLines = assStr.remove(QT_MAC_EOL).split(QT_NOR_EOL);
-    const QRegularExpression rex("(\\d+)?:(\\d+)?:(\\d+)?(\\.\\d+)?(\\S+)?");
 
     if(assLines.isEmpty())
     {
         return assParsedList;
     }
 
-    for(QString assLine : assLines)
+    for(int i = eINDEX_0; i < assLines.length(); i++)
     {
-        if(assLine.startsWith(ASS_TAG_EVENT_FORMAT_DIALOGUE) || assLine.startsWith(ASS_TAG_EVENT_FORMAT_COMMENT))
+        QString assLine = assLines.at(i);
+        QStringList events = splitAssEvents(assLine);
+
+        if(events.length() >= static_cast<int>(AssEvents::MaxEvent))
         {
-            QStringList events = stripAssTag(assLine).split(ASS_TAG_COMMA);
-            qint64 startTimeMsec;
-            QRegularExpressionMatch match;
+            qint64 startTimeMsec = assTimeToLrcTime(events.at(static_cast<int>(AssEvents::Start)));
+            qint64 endTimeMsec = assTimeToLrcTime(events.at(static_cast<int>(AssEvents::End)));
+            QString text = events.at(static_cast<int>(AssEvents::Text));
 
-            if(events.length() < static_cast<int>(AssEvents::MaxEvent))
+            if(startTimeMsec < qint64(eINDEX_0))
             {
                 continue;
             }
 
-            match = rex.match(events.at(static_cast<int>(AssEvents::Start)));
+            assParsedList.append( { startTimeMsec, text });
 
-#ifdef QT_DEBUG
-            qDebug() << "-->";
-            for(int i = 0; i < match.capturedLength(); i++)
+            /* No making times continued. */
+            if(i < assLines.length() && endTimeMsec >= qint64(eINDEX_0))
             {
-                qDebug() << match.captured(i);
-            }
-            qDebug() << "<--";
-#endif
-            if(match.captured(0).isEmpty())
-            {
-                continue;
-            }
-            else
-            {
-                int hour = match.captured(1).toInt();
-                int min = match.captured(2).toInt();
-                int sec = match.captured(3).toInt();
-                double msec = match.captured(4).toDouble();
+                QString assLineNext = assLines.at(i + eINDEX_1);
+                QStringList events = splitAssEvents(assLineNext);
 
-                startTimeMsec = static_cast<int>((hour * MINUTE * MINUTE + min * MINUTE + sec + msec) * SECOND_TO_MILLISECOND_UNIT);
-                assParsedList.append( { startTimeMsec, toTextFromAssEvent(events) });
+                if(events.length() >= static_cast<int>(AssEvents::MaxEvent))
+                {
+                    qint64 startTimeMsecNext = assTimeToLrcTime(events.at(static_cast<int>(AssEvents::Start)));
+
+                    if(endTimeMsec != startTimeMsecNext && startTimeMsec >= qint64(eINDEX_0))
+                    {
+                        assParsedList.append( { endTimeMsec, NULLSTR });
+                    }
+                }
             }
         }
     }
